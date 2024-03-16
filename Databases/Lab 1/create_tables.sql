@@ -57,7 +57,7 @@ ALTER TABLE "friendships" ADD FOREIGN KEY ("friend_id") REFERENCES "persons" ("i
 
 ALTER TABLE "information" ADD FOREIGN KEY ("original_source") REFERENCES "persons" ("id") ON DELETE SET NULL;
 
-ALTER TABLE "persons" ADD FOREIGN KEY ("id") REFERENCES "cities" ("mayor") ON DELETE RESTRICT;
+ALTER TABLE "cities" ADD FOREIGN KEY ("mayor") REFERENCES "persons" ("id") ON DELETE RESTRICT;
 
 ALTER TABLE "information" ADD CONSTRAINT check_truthfulness CHECK (truthfulness BETWEEN 0 and 100);
 
