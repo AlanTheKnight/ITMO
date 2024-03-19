@@ -7,13 +7,13 @@ import utils.ConsoleColors;
 
 /**
  * Command for removing an element from the collection by its key.
- * 
+ *
  * @author AlanTheKnight
  */
 public class RemoveKey extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -24,12 +24,7 @@ public class RemoveKey extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 2) {
-            printInvalidArgs(console);
-            return false;
-        }
-
-        Integer id;
+        int id;
 
         try {
             id = Integer.parseInt(arguments[1]);

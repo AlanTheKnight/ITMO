@@ -2,10 +2,10 @@ package commands;
 
 /**
  * Command for executing a script from a file.
- * 
+ * <p>
  * (the logic behind this command is implemented in {@link
  * commands.CommandRunner})
- * 
+ *
  * @author AlanTheKnight
  */
 public class ExecuteScript extends Command {

@@ -2,7 +2,7 @@ package models;
 
 /**
  * Countries enumeration.
- * 
+ *
  * @author AlanTheKnight
  */
 public enum Country {
@@ -12,7 +12,7 @@ public enum Country {
 
     /**
      * Returns all countries as a string.
-     * 
+     *
      * @return all countries
      */
     public static String countries() {

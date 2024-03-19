@@ -1,43 +1,23 @@
 package commands;
 
+import managers.CommandManager;
+import utils.Console;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import managers.CommandManager;
-import utils.Console;
-
 /**
  * The CommandRunner class is responsible for running the commands.
- * 
+ *
  * @author AlanTheKnight
  */
 public class CommandRunner {
-    /**
-     * The exit code of the command.
-     */
-    public enum ExitCode {
-        /**
-         * The command was executed successfully.
-         */
-        OK,
-
-        /**
-         * There was an error while executing the command.
-         */
-        ERROR,
-
-        /**
-         * The command was executed successfully and the program should exit.
-         */
-        EXIT;
-    }
-
-    private Console console;
     private final CommandManager commandManager;
+    private final Console console;
+    private int MAX_RECURSION_LEVEL = 10;
     private int recursionLevel = 0;
-    private final int MAX_RECURSION_LEVEL = 10;
 
     public CommandRunner(Console console, CommandManager commandManager) {
         this.console = console;
@@ -45,8 +25,26 @@ public class CommandRunner {
     }
 
     /**
+     * Get the maximum recursion level.
+     *
+     * @return the maximum recursion level
+     */
+    public int getMaxRecursionLevel() {
+        return MAX_RECURSION_LEVEL;
+    }
+
+    /**
+     * Set the maximum recursion level.
+     *
+     * @param maxRecursionLevel the maximum recursion level
+     */
+    public void setMaxRecursionLevel(int maxRecursionLevel) {
+        MAX_RECURSION_LEVEL = maxRecursionLevel;
+    }
+
+    /**
      * Process the prompt.
-     * 
+     *
      * @param prompt the prompt to process
      * @return the exit code of the command
      */
@@ -84,7 +82,7 @@ public class CommandRunner {
             }
 
             commandManager.addToHistory(prompt);
-            boolean commandStatus = command.execute(readCommand);
+            boolean commandStatus = command.run(readCommand, console);
             return commandStatus ? ExitCode.OK : ExitCode.ERROR;
         }
     }
@@ -96,7 +94,7 @@ public class CommandRunner {
         try {
             ExitCode commandStatus = ExitCode.OK;
             do {
-                commandStatus = processPrompt(console.readln());
+                commandStatus = processPrompt(console.readLine());
             } while (commandStatus != ExitCode.EXIT);
         } catch (Exception e) {
             console.printError(e.getMessage());
@@ -105,7 +103,7 @@ public class CommandRunner {
 
     /**
      * Execute a script.
-     * 
+     *
      * @param filename the filename of the script
      * @return the exit code of the command
      */
@@ -133,5 +131,25 @@ public class CommandRunner {
         }
 
         return ExitCode.OK;
+    }
+
+    /**
+     * The exit code of the command.
+     */
+    public enum ExitCode {
+        /**
+         * The command was executed successfully.
+         */
+        OK,
+
+        /**
+         * There was an error while executing the command.
+         */
+        ERROR,
+
+        /**
+         * The command was executed successfully and the program should exit.
+         */
+        EXIT
     }
 }

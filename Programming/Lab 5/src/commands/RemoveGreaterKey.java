@@ -5,13 +5,13 @@ import utils.Console;
 
 /**
  * Command for removing all elements greater than the given key.
- * 
+ *
  * @author AlanTheKnight
  */
 public class RemoveGreaterKey extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -23,12 +23,7 @@ public class RemoveGreaterKey extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 2) {
-            printInvalidArgs(console);
-            return false;
-        }
-
-        Integer key;
+        int key;
 
         try {
             key = Integer.parseInt(arguments[1]);

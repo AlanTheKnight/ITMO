@@ -5,13 +5,13 @@ import utils.EnumHelper;
 
 /**
  * Inputter for enum values.
- * 
+ *
  * @author AlanTheKnight
  */
 public final class EnumInputter {
     /**
      * Asks the user for an enum value.
-     * 
+     *
      * @param <T>        enum type
      * @param console    console
      * @param enumClass  enum class
@@ -25,7 +25,7 @@ public final class EnumInputter {
         while (true) {
             if (console.isInteractive())
                 console.println("Выберите одно из значений: " + EnumHelper.enumToString(enumClass));
-            String input = console.readln(false).trim();
+            String input = console.readLine(false).trim();
             if (input.isEmpty()) {
                 if (isRequired) {
                     console.printError("Поле не может быть пустым");
@@ -50,7 +50,7 @@ public final class EnumInputter {
 
     /**
      * Inputs an enum value.
-     * 
+     *
      * @param <T>       enum type
      * @param console   console
      * @param enumClass enum class
@@ -66,14 +66,14 @@ public final class EnumInputter {
     /**
      * Exception for enum inputter, thrown when input is unsuccessful, in file
      * console mode.
-     * 
+     *
      * @author AlanTheKnight
      */
     public static class EnumInputterException extends Exception {
         /**
          * Exception message
          */
-        private String message;
+        private final String message;
 
         public EnumInputterException(String message) {
             this.message = message;

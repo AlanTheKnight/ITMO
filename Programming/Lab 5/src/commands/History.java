@@ -1,10 +1,10 @@
 package commands;
 
-import java.util.ArrayList;
-
 import managers.CommandManager;
 import utils.Console;
 import utils.ConsoleColors;
+
+import java.util.ArrayList;
 
 /**
  * Command for displaying the history of commands (last 13 used).
@@ -12,7 +12,7 @@ import utils.ConsoleColors;
 public class History extends ConsoleCmdCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console        console
      * @param commandManager command manager
      */
@@ -22,11 +22,6 @@ public class History extends ConsoleCmdCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         ArrayList<String> history = commandManager.getHistory();
         console.printInColor(ConsoleColors.BLUE, "История команд:");
 

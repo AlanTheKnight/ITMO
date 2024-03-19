@@ -1,14 +1,14 @@
 package managers;
 
+import commands.Command;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import commands.Command;
-
 /**
  * The CommandManager class is responsible for managing the commands.
- * 
+ *
  * @author AlanTheKnight
  */
 public class CommandManager {

@@ -1,38 +1,37 @@
 package models;
 
-import java.util.Objects;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import utils.Convertable;
 import utils.Validatable;
 
+import java.util.Objects;
+
 /**
  * Model for personal data of the worker.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Person implements Validatable, Convertable {
     /**
      * Height of the person (not null, greater than 0).
      */
-    private double height;
+    private final double height;
 
     /**
      * Weight of the person (not null, greater than 0).
      */
-    private long weight;
+    private final long weight;
 
     /**
      * Hair color of the person (can be null).
      */
-    private Color hairColor;
+    private final Color hairColor;
 
     /**
      * Nationality of the person (can be null).
      */
-    private Country nationality;
+    private final Country nationality;
 
     public Person(double height, long weight, Color hairColor, Country nationality) {
         this.height = height;
@@ -41,11 +40,29 @@ public class Person implements Validatable, Convertable {
         this.nationality = nationality;
     }
 
+    /**
+     * Creates a new Person object from the XML element.
+     *
+     * @param element XML element
+     * @return new Person object
+     */
+    public static Person fromElement(Element element) {
+        String heightValue = element.getElementsByTagName("height").item(0).getTextContent();
+        String weightValue = element.getElementsByTagName("weight").item(0).getTextContent();
+        String hairColorValue = element.getElementsByTagName("hairColor").item(0).getTextContent();
+        String nationalityValue = element.getElementsByTagName("nationality").item(0).getTextContent();
+
+        double height = Double.parseDouble(heightValue);
+        long weight = Long.parseLong(weightValue);
+        Color hairColor = hairColorValue.equals("null") ? null : Color.valueOf(hairColorValue);
+        Country nationality = nationalityValue.equals("null") ? null : Country.valueOf(nationalityValue);
+
+        return new Person(height, weight, hairColor, nationality);
+    }
+
     @Override
     public boolean validate() {
-        if (height <= 0 || weight <= 0)
-            return false;
-        return true;
+        return !(height <= 0) && weight > 0;
     }
 
     @Override
@@ -69,26 +86,6 @@ public class Person implements Validatable, Convertable {
         personElement.appendChild(nationalityElement);
 
         return personElement;
-    }
-
-    /**
-     * Creates a new Person object from the XML element.
-     * 
-     * @param element XML element
-     * @return new Person object
-     */
-    public static Person fromElement(Element element) {
-        String heightValue = element.getElementsByTagName("height").item(0).getTextContent();
-        String weightValue = element.getElementsByTagName("weight").item(0).getTextContent();
-        String hairColorValue = element.getElementsByTagName("hairColor").item(0).getTextContent();
-        String nationalityValue = element.getElementsByTagName("nationality").item(0).getTextContent();
-
-        double height = Double.parseDouble(heightValue);
-        long weight = Long.parseLong(weightValue);
-        Color hairColor = hairColorValue.equals("null") ? null : Color.valueOf(hairColorValue);
-        Country nationality = nationalityValue.equals("null") ? null : Country.valueOf(nationalityValue);
-
-        return new Person(height, weight, hairColor, nationality);
     }
 
     @Override

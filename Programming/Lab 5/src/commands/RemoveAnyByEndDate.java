@@ -1,20 +1,20 @@
 package commands;
 
-import java.time.LocalDate;
-
 import managers.CollectionManager;
 import models.Worker;
 import utils.Console;
 
+import java.time.LocalDate;
+
 /**
  * Command for removing the element by end date.
- * 
+ *
  * @author AlanTheKnight
  */
 public class RemoveAnyByEndDate extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -27,11 +27,6 @@ public class RemoveAnyByEndDate extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 2) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         String endDate = arguments[1];
         if (!endDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
             console.printError("Дата должна быть в формате yyyy-mm-dd");

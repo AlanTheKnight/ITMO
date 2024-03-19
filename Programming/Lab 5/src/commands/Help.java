@@ -6,13 +6,13 @@ import utils.ConsoleColors;
 
 /**
  * Command for displaying help for available commands.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Help extends ConsoleCmdCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console        console
      * @param commandManager command manager
      */
@@ -22,11 +22,6 @@ public class Help extends ConsoleCmdCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         console.printInColor(ConsoleColors.BLUE, "Список доступных команд:");
         commandManager.getCommands().values()
                 .forEach(command -> console.printTwoColumns(command.getName(), command.getDescription(), " — ", 20));

@@ -1,5 +1,9 @@
 package managers;
 
+import models.Worker;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,20 +11,15 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-
-import models.Worker;
-
 /**
  * The CollectionManager class is responsible for managing the collection of
  * workers.
- * 
+ *
  * @author AlanTheKnight
  */
 public class CollectionManager {
-    private Map<Integer, Worker> workers = new TreeMap<>();
     private final DumpManager dumpManager;
+    private Map<Integer, Worker> workers = new TreeMap<>();
     private Integer freeId = 0;
     private LocalDateTime lastInitTime = null;
 
@@ -30,7 +29,7 @@ public class CollectionManager {
 
     /**
      * Returns the collection as a list of XML elements.
-     * 
+     *
      * @param document XML document.
      * @return List of XML elements.
      */
@@ -65,26 +64,13 @@ public class CollectionManager {
     }
 
     /**
-     * Adds a worker to the collection and assigns the next free id to it.
-     * 
-     * @param worker Worker to add.
-     * @return Added worker.
-     */
-    public Worker addWorker(Worker worker) {
-        worker.setId(freeId);
-        workers.put(freeId, worker);
-        freeId++;
-        return worker;
-    }
-
-    /**
      * Adds a worker to the collection with the specified id.
-     * 
+     *
      * @param id     Worker id.
      * @param worker Worker to add.
      * @return Added worker.
      */
-    public Worker addWorker(int id, Worker worker) {
+    public Worker insertWorker(int id, Worker worker) {
         workers.put(id, worker);
         freeId = Math.max(freeId, id + 1);
         return worker;
@@ -106,7 +92,7 @@ public class CollectionManager {
 
     /**
      * Removes the worker with the specified id from the collection.
-     * 
+     *
      * @param id Worker id.
      * @return Removed worker.
      */
@@ -130,7 +116,7 @@ public class CollectionManager {
 
     /**
      * Remove all workers with the key greater than the specified key.
-     * 
+     *
      * @param key Key to compare with.
      * @return Number of removed workers.
      */
@@ -147,7 +133,7 @@ public class CollectionManager {
 
     /**
      * Remove all workers with the end date equal to the specified end date.
-     * 
+     *
      * @param endDate End date to compare with.
      * @return Removed worker, or null if no worker was removed.
      */
@@ -162,7 +148,7 @@ public class CollectionManager {
 
     /**
      * Remove all workers with the end date greater than the specified end date.
-     * 
+     *
      * @param endDate End date to compare with.
      * @return Number of removed workers.
      */

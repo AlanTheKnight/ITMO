@@ -4,13 +4,13 @@ import utils.Console;
 
 /**
  * Inputter for numeric values.
- * 
+ *
  * @author AlanTheKnight
  */
 public final class NumberInputter {
     /**
      * Asks the user for a numeric value.
-     * 
+     *
      * @param <T>         number type
      * @param console     console
      * @param numberClass number class
@@ -21,13 +21,13 @@ public final class NumberInputter {
      * @throws NumberInputterException
      */
     public static <T extends Number> T input(Console console, Class<T> numberClass, String prompt,
-            boolean isRequired, NumberChecker<T> checker)
+                                             boolean isRequired, NumberChecker<T> checker)
             throws NumberInputterException {
         while (true) {
             if (console.isInteractive())
                 console.print("Введите " + prompt + ": ");
 
-            String input = console.readln(false).trim();
+            String input = console.readLine(false).trim();
 
             if (input.isEmpty()) {
                 if (isRequired) {
@@ -82,11 +82,11 @@ public final class NumberInputter {
         return input(console, numberClass, prompt, true, null);
     }
 
-    public static class NumberInputterException extends Exception {
-
-    }
-
     public interface NumberChecker<T extends Number> {
         boolean check(T number);
+    }
+
+    public static class NumberInputterException extends Exception {
+
     }
 }

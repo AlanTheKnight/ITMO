@@ -6,13 +6,14 @@ import utils.ConsoleColors;
 
 /**
  * Command for showing information about the collection.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Info extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * @param console console
+     *
+     * @param console           console
      * @param collectionManager collection manager
      */
     public Info(Console console, CollectionManager collectionManager) {
@@ -21,11 +22,6 @@ public class Info extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         console.printInColor(ConsoleColors.BLUE, "Сведения о коллекции: ");
         console.println("Тип: " + collectionManager.getWorkers().getClass().getName());
         console.println("Количество элементов: " + collectionManager.getCollection().size());

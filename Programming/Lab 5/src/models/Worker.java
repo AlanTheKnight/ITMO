@@ -1,12 +1,11 @@
 package models;
 
-import java.time.LocalDate;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import utils.CollectionElement;
 import utils.Convertable;
+
+import java.time.LocalDate;
 
 /**
  * Worker element of the collection.
@@ -20,12 +19,12 @@ public class Worker extends CollectionElement implements Convertable {
     /**
      * Name of the worker (not null).
      */
-    private String name;
+    private final String name;
 
     /**
      * Coordinates of the worker (not null).
      */
-    private Coordinates coordinates;
+    private final Coordinates coordinates;
 
     /**
      * Creation date of the worker record (generated automatically).
@@ -35,31 +34,31 @@ public class Worker extends CollectionElement implements Convertable {
     /**
      * Salary of the worker (not null, greater than 0).
      */
-    private Long salary;
+    private final Long salary;
 
     /**
      * End date of the worker's contract (not null).
      */
-    private LocalDate endDate;
+    private final LocalDate endDate;
 
     /**
      * Position of the worker (can be null).
      */
-    private Position position;
+    private final Position position;
 
     /**
      * Status of the worker (not null).
      */
-    private Status status;
+    private final Status status;
 
     /**
      * Personal data of the worker (not null).
      */
-    private Person person;
+    private final Person person;
 
     /**
      * Creates a new worker.
-     * 
+     *
      * @param id          id
      * @param name        name
      * @param coordinates coordinates
@@ -70,7 +69,7 @@ public class Worker extends CollectionElement implements Convertable {
      * @param person      person
      */
     public Worker(int id, String name, Coordinates coordinates, Long salary,
-            LocalDate endDate, Position position, Status status, Person person) {
+                  LocalDate endDate, Position position, Status status, Person person) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -84,7 +83,7 @@ public class Worker extends CollectionElement implements Convertable {
 
     /**
      * Creates a new worker.
-     * 
+     *
      * @param id           id
      * @param name         name
      * @param coordinates  coordinates
@@ -96,9 +95,30 @@ public class Worker extends CollectionElement implements Convertable {
      * @param person       person
      */
     public Worker(int id, String name, Coordinates coordinates, Long salary, LocalDate creationDate,
-            LocalDate endDate, Position position, Status status, Person person) {
+                  LocalDate endDate, Position position, Status status, Person person) {
         this(id, name, coordinates, salary, endDate, position, status, person);
         this.creationDate = creationDate;
+    }
+
+    /**
+     * Creates a new Worker object from the given XML element.
+     *
+     * @param element XML element
+     * @return new Worker object
+     */
+    public static Worker fromElement(Element element) {
+        int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+        String name = element.getElementsByTagName("name").item(0).getTextContent();
+        Coordinates coordinates = Coordinates
+                .fromElement((Element) element.getElementsByTagName("coordinates").item(0));
+        LocalDate creationDate = LocalDate.parse(element.getElementsByTagName("creationDate").item(0).getTextContent());
+        Long salary = Long.parseLong(element.getElementsByTagName("salary").item(0).getTextContent());
+        LocalDate endDate = LocalDate.parse(element.getElementsByTagName("endDate").item(0).getTextContent());
+        Position position = Position.valueOf(element.getElementsByTagName("position").item(0).getTextContent());
+        Status status = Status.valueOf(element.getElementsByTagName("status").item(0).getTextContent());
+        Person person = Person.fromElement((Element) element.getElementsByTagName("person").item(0));
+
+        return new Worker(id, name, coordinates, salary, creationDate, endDate, position, status, person);
     }
 
     @Override
@@ -113,9 +133,7 @@ public class Worker extends CollectionElement implements Convertable {
             return false;
         if (status == null)
             return false;
-        if (person == null || !person.validate())
-            return false;
-        return true;
+        return person != null && person.validate();
     }
 
     @Override
@@ -130,7 +148,7 @@ public class Worker extends CollectionElement implements Convertable {
 
     /**
      * Sets the id of the worker.
-     * 
+     *
      * @param id id
      */
     public void setId(int id) {
@@ -139,7 +157,7 @@ public class Worker extends CollectionElement implements Convertable {
 
     /**
      * Creates a new XML element from the Worker object.
-     * 
+     *
      * @param document XML document
      * @return new XML element
      */
@@ -184,27 +202,6 @@ public class Worker extends CollectionElement implements Convertable {
         return workerElement;
     }
 
-    /**
-     * Creates a new Worker object from the given XML element.
-     * 
-     * @param element XML element
-     * @return new Worker object
-     */
-    public static Worker fromElement(Element element) {
-        int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-        String name = element.getElementsByTagName("name").item(0).getTextContent();
-        Coordinates coordinates = Coordinates
-                .fromElement((Element) element.getElementsByTagName("coordinates").item(0));
-        LocalDate creationDate = LocalDate.parse(element.getElementsByTagName("creationDate").item(0).getTextContent());
-        Long salary = Long.parseLong(element.getElementsByTagName("salary").item(0).getTextContent());
-        LocalDate endDate = LocalDate.parse(element.getElementsByTagName("endDate").item(0).getTextContent());
-        Position position = Position.valueOf(element.getElementsByTagName("position").item(0).getTextContent());
-        Status status = Status.valueOf(element.getElementsByTagName("status").item(0).getTextContent());
-        Person person = Person.fromElement((Element) element.getElementsByTagName("person").item(0));
-
-        return new Worker(id, name, coordinates, salary, creationDate, endDate, position, status, person);
-    }
-
     @Override
     public String toString() {
         return "Worker [coordinates=" + coordinates + ", creationDate=" + creationDate + ", endDate=" + endDate
@@ -215,7 +212,7 @@ public class Worker extends CollectionElement implements Convertable {
 
     /**
      * Returns the end date of the worker's contract.
-     * 
+     *
      * @return end date
      */
     public LocalDate getEndDate() {

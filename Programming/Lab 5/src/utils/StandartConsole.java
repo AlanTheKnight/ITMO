@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Standart console.
- * 
+ *
  * @author AlanTheKnight
  */
 public class StandartConsole implements Console {
@@ -12,16 +12,14 @@ public class StandartConsole implements Console {
      * The prompt entry
      */
     private static final String promptEntry = "$ ";
-
+    /**
+     * The standard input scanner
+     */
+    private static final Scanner stdInScanner = new Scanner(System.in);
     /**
      * The file scanner
      */
     private static Scanner fileScanner = null;
-
-    /**
-     * The standard input scanner
-     */
-    private static Scanner stdInScanner = new Scanner(System.in);
 
     @Override
     public void print(Object obj) {
@@ -39,30 +37,25 @@ public class StandartConsole implements Console {
     }
 
     @Override
-    public String readln() {
-        return readln(true);
+    public String readLine() {
+        return readLine(true);
     }
 
     @Override
-    public String readln(boolean printPrompt) {
+    public String readLine(boolean printPrompt) {
         if (printPrompt)
             print(promptEntry);
         return (fileScanner != null ? fileScanner : stdInScanner).nextLine();
     }
 
     @Override
-    public boolean canReadln() {
+    public boolean canReadLine() {
         return (fileScanner != null ? fileScanner : stdInScanner).hasNextLine();
     }
 
     @Override
     public void printTwoColumns(Object left, Object right, String separator, int leftWidth) {
         System.out.printf("%-" + leftWidth + "s %s %s%n", left, separator, right);
-    }
-
-    @Override
-    public void printTwoColumns(Object left, Object right, String separator) {
-        System.out.printf("%-40s %s %s%n", left, separator, right, 30);
     }
 
     @Override

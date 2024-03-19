@@ -2,7 +2,7 @@ package models;
 
 /**
  * Worker's status enumeration.
- * 
+ *
  * @author AlanTheKnight
  */
 public enum Status {
@@ -10,5 +10,5 @@ public enum Status {
     HIRED,
     RECOMMENDED_FOR_PROMOTION,
     REGULAR,
-    PROBATION;
+    PROBATION
 }

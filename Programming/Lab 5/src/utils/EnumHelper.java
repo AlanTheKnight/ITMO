@@ -2,13 +2,13 @@ package utils;
 
 /**
  * Helper class for working with enums
- * 
+ *
  * @author AlanTheKnight
  */
 public class EnumHelper {
     /**
      * Converts an enum to a string (comma-separated list of values).
-     * 
+     *
      * @param <T>       enum type
      * @param enumClass enum class
      * @return string representation of the enum

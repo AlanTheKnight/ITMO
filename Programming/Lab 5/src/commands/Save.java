@@ -5,13 +5,13 @@ import utils.Console;
 
 /**
  * Command for saving the collection to a file.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Save extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -21,11 +21,6 @@ public class Save extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         boolean status = collectionManager.saveCollection();
         if (status)
             console.printSuccess("Коллекция сохранена в файл");

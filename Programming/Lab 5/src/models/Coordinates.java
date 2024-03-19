@@ -2,18 +2,17 @@ package models;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import utils.Convertable;
 import utils.Validatable;
 
 /**
  * Worker's coordinates model.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Coordinates implements Validatable, Convertable {
-    private int x;
-    private Float y;
+    private final int x;
+    private final Float y;
 
     public Coordinates(int x, Float y) {
         this.x = x;
@@ -25,12 +24,23 @@ public class Coordinates implements Validatable, Convertable {
         this.x = Integer.parseInt(parts[0]);
         this.y = Float.parseFloat(parts[1]);
     }
-    
+
+    /**
+     * Creates a new Coordinates object from the given XML element.
+     *
+     * @param element XML element
+     * @return new Coordinates object
+     */
+    public static Coordinates fromElement(Element element) {
+        int x = Integer.parseInt(element.getElementsByTagName("x").item(0).getTextContent());
+        Float y = Float.parseFloat(element.getElementsByTagName("y").item(0).getTextContent());
+
+        return new Coordinates(x, y);
+    }
+
     @Override
     public boolean validate() {
-        if (y == null || y <= -154)
-            return false;
-        return true;
+        return y != null && y > -154;
     }
 
     @Override
@@ -55,7 +65,7 @@ public class Coordinates implements Validatable, Convertable {
 
     /**
      * Creates a new XML element from the coordinates.
-     * 
+     *
      * @param document XML document
      * @return new XML element
      */
@@ -72,18 +82,5 @@ public class Coordinates implements Validatable, Convertable {
         coordinatesElement.appendChild(yElement);
 
         return coordinatesElement;
-    }
-
-    /**
-     * Creates a new Coordinates object from the given XML element.
-     * 
-     * @param element XML element
-     * @return new Coordinates object
-     */
-    public static Coordinates fromElement(Element element) {
-        int x = Integer.parseInt(element.getElementsByTagName("x").item(0).getTextContent());
-        Float y = Float.parseFloat(element.getElementsByTagName("y").item(0).getTextContent());
-
-        return new Coordinates(x, y);
     }
 }

@@ -1,30 +1,21 @@
 package inputters;
 
-import java.time.LocalDate;
-
 import inputters.EnumInputter.EnumInputterException;
 import inputters.NumberInputter.NumberInputterException;
-import models.Color;
-import models.Coordinates;
-import models.Country;
-import models.Person;
-import models.Position;
-import models.Status;
-import models.Worker;
+import models.*;
 import utils.Console;
+
+import java.time.LocalDate;
 
 /**
  * Inputter for worker elements of the collection.
- * 
+ *
  * @author AlanTheKnight
  */
 public class ElementInputter {
-    public static class ElementInputterException extends Exception {
-    }
-
     /**
      * Inputs a worker.
-     * 
+     *
      * @param console
      * @return new Worker object
      * @throws ElementInputterException
@@ -52,7 +43,7 @@ public class ElementInputter {
 
     /**
      * Inputs coordinates.
-     * 
+     *
      * @param console console
      * @return new Coordinates object or null if input was unsuccessful
      * @throws ElementInputterException
@@ -76,7 +67,7 @@ public class ElementInputter {
 
     /**
      * Inputs name.
-     * 
+     *
      * @param console console
      * @return name
      * @throws ElementInputterException
@@ -85,7 +76,7 @@ public class ElementInputter {
         while (true) {
             if (console.isInteractive())
                 console.print("name: ");
-            String name = console.readln(false).trim();
+            String name = console.readLine(false).trim();
             if (name.isEmpty()) {
                 console.printError("Поле name не может быть пустым");
                 if (!console.isInteractive()) {
@@ -99,7 +90,7 @@ public class ElementInputter {
 
     /**
      * Inputs end date.
-     * 
+     *
      * @param console
      * @return end date or null
      * @throws ElementInputterException
@@ -108,7 +99,7 @@ public class ElementInputter {
         while (true) {
             if (console.isInteractive())
                 console.print("endDate (yyyy-mm-dd): ");
-            String endDate = console.readln(false).trim();
+            String endDate = console.readLine(false).trim();
             if (endDate.isEmpty()) {
                 return null;
             }
@@ -125,7 +116,7 @@ public class ElementInputter {
 
     /**
      * Inputs person.
-     * 
+     *
      * @param console console
      * @return new Person object
      * @throws ElementInputterException
@@ -154,5 +145,8 @@ public class ElementInputter {
         } catch (NumberInputterException | EnumInputterException e) {
             throw new ElementInputterException();
         }
+    }
+
+    public static class ElementInputterException extends Exception {
     }
 }

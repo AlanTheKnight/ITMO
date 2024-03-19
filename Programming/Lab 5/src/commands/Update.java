@@ -12,7 +12,7 @@ import utils.Console;
 public class Update extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -25,12 +25,7 @@ public class Update extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 2) {
-            printInvalidArgs(console);
-            return false;
-        }
-
-        Integer id;
+        int id;
 
         try {
             id = Integer.parseInt(arguments[1]);
@@ -41,7 +36,7 @@ public class Update extends ConsoleCollectionCommand {
 
         try {
             Worker w = ElementInputter.inputWorker(console);
-            collectionManager.addWorker(id, w);
+            collectionManager.insertWorker(id, w);
             console.printSuccess("Элемент обновлён");
             return true;
         } catch (ElementInputter.ElementInputterException e) {

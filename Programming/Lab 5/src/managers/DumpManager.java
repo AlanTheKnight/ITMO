@@ -1,16 +1,12 @@
 package managers;
 
-import utils.Console;
 import models.Worker;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Collection;
-import java.util.TreeMap;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import utils.Console;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,17 +16,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.*;
+import java.util.Collection;
+import java.util.TreeMap;
 
 /**
  * The DumpManager class is responsible for reading and writing the collection
  * from/to the file.
- * 
+ *
  * @author AlanTheKnight
  */
 public class DumpManager {
@@ -44,7 +37,7 @@ public class DumpManager {
 
     /**
      * Reads the collection from the file.
-     * 
+     *
      * @return the collection of workers
      */
     public TreeMap<Integer, Worker> readCollection() {
@@ -106,7 +99,7 @@ public class DumpManager {
 
     /**
      * Writes the collection to the file.
-     * 
+     *
      * @param workers the collection of workers
      * @return true if the collection was written successfully, false otherwise
      */

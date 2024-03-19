@@ -2,7 +2,7 @@ package utils;
 
 /**
  * Enum for console colors.
- * 
+ *
  * @see <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape codes</a>
  */
 public enum ConsoleColors {
@@ -25,14 +25,9 @@ public enum ConsoleColors {
         this.ansiCode = ansiCode;
     }
 
-    @Override
-    public String toString() {
-        return ansiCode;
-    }
-
     /**
      * Colorize the text.
-     * 
+     *
      * @param text  the text
      * @param color the color
      * @return the colorized text
@@ -43,12 +38,17 @@ public enum ConsoleColors {
 
     /**
      * Returns a color by its number.
-     * 
+     *
      * @param number - number of the color
      * @return
      */
     public static ConsoleColors byNumber(int number) {
         number = number % 8;
         return ConsoleColors.valueOf(ConsoleColors.class, ConsoleColors.values()[number].name());
+    }
+
+    @Override
+    public String toString() {
+        return ansiCode;
     }
 }

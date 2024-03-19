@@ -7,13 +7,13 @@ import utils.Console;
 
 /**
  * Command for removing all elements greater than the given one.
- * 
+ *
  * @author AlanTheKnight
  */
 public class RemoveGreater extends ConsoleCollectionCommand {
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -25,12 +25,7 @@ public class RemoveGreater extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
-        Worker w = null;
+        Worker w;
         try {
             w = ElementInputter.inputWorker(console);
         } catch (ElementInputter.ElementInputterException e) {

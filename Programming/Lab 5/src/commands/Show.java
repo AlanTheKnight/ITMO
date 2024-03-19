@@ -8,14 +8,14 @@ import utils.ConsoleColors;
 /**
  * Command for printing all elements of the collection to the standard
  * output stream.
- * 
+ *
  * @author AlanTheKnight
  */
 public class Show extends ConsoleCollectionCommand {
 
     /**
      * Constructor for the command.
-     * 
+     *
      * @param console           console
      * @param collectionManager collection manager
      */
@@ -30,15 +30,9 @@ public class Show extends ConsoleCollectionCommand {
 
     @Override
     public boolean execute(String[] arguments) {
-        if (arguments.length != 1) {
-            printInvalidArgs(console);
-            return false;
-        }
-
         for (Worker w : collectionManager.getWorkers().values()) {
             console.printInColor(ConsoleColors.byNumber(w.hashCode()), w.toString());
         }
-
         return true;
     }
 }

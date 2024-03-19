@@ -6,5 +6,5 @@ package models;
 public enum Color {
     GREEN,
     RED,
-    WHITE;
+    WHITE
 }
