@@ -1,3 +1,6 @@
 [submodule "Programming/Programming-Lab-5"]
 	path = Programming/Programming-Lab-5
 	url = https://github.com/AlanTheKnight/Programming-Lab-5
+[submodule "Programming/Programming-Lab-6"]
+	path = Programming/Programming-Lab-6
+	url = https://github.com/AlanTheKnight/Programming-Lab-6
