@@ -26,7 +26,7 @@
         <td align="center">#</td>
         <td align="center">Variant</td>
         <td align="center">Done</td>
-    </td>
+    </tr>
     <tr>
         <td align="center">5</td>
         <td align="center">1488</td>
