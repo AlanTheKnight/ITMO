@@ -1,0 +1,239 @@
+@startuml ClassesModel
+
+package characters {
+    class Character {
+        # name: String
+        # voice: boolean = true
+        # happinessLevel: HappinessLevel = HappinessLevel.NEUTRAL
+        # stressLevel: StressLevel = StressLevel.NEUTRAL
+        -- constructors --
+        + Character(name: String)
+        + Character(name: String, hasVoice: boolean)
+        + Character(name: String, happinessLevel: HappinessLevel)
+        + Character(name: String, hasVoice: boolean, happinessLevel: HappinessLevel)
+        -- methods --
+        + getHappinessLevel(): HappinessLevel
+        + setHappinessLevel(happinessLevel: HappinessLevel): void
+        + getName(): String
+        + enterHouse(house: House): void
+        + leaveHouse(house: House): void
+        + say(message: String): void
+        + sayGoodbye(): void
+        + laugh(seconds: int, callback: LaughCallback): void
+        + getVoice(): boolean
+        + setVoice(hasVoice: boolean): void
+        + sing(song: Song): void
+        + sing(lyrics: String): void
+        + toString(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+        + goToLunch(): void
+        + layOnBed(bed: Bed): void
+        + wakeUp(bed: Bed, reason: Object): void
+        + light(roomObject: Ligtable): void
+        + extinguish(roomObject: Ligtable): void
+        + hear(message: String): void
+        + goTo(roomObject: RoomObject): void
+        + check(condition: boolean, message: String): void
+        + setStressLevel(stressLevel: StressLevel): void
+        + getStressLevel(): StressLevel
+    }
+
+    interface LaughCallback {
+        void afterLaugh()
+    }
+
+    enum HappinessLevel {
+        HAPPY
+        SAD
+        NEUTRAL
+    }
+
+    enum StressLevel {
+        STRESSED,
+        CALM,
+        NEUTRAL
+    }
+}
+
+package house {
+    class House {
+        # name: String
+        # owner: Character
+        # characters_inside: ArrayList<Character>
+        -- constructors --
+        + House(name: String)
+        + House(name: String, owner: Character)
+        -- methods --
+        + getName(): String
+        + setName(name: String): String
+        + getOwner(): Character
+        + setOwner(owner: Character): void
+        + addCharacter(character: Character): void
+        + removeCharacter(character: Character): void
+        + getCharactersInside(): ArrayList<Character>
+        + toString(): String
+        + equals(obj: Object): boolean
+    }
+
+    class HouseLeavingException extends Exception {
+        + HouseLeavingException(message: String)
+    }
+}
+
+package mistake {
+    class TerribleMistake {
+        # desciption: String
+        -- constructors --
+        + TerribleMistake(desciption: String)
+        -- methods --
+        + getDesciption(): String
+        + setDesciption(desciption: String): void
+        + toString(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+}
+
+package songs {
+    interface LyricsReader {
+        + readLyrics(): ArrayList<String>
+    }
+
+    class LyricsManualReader implements LyricsReader  {
+        - lyrics: ArrayList<String>
+
+        + LyricsManualReader(lyrics: ArrayList<String>)
+        + readLyrics(): ArrayList<String>
+    }
+
+    class LyricsFileReader implements LyricsReader {
+        - filename: String
+
+        + LyricsFileReader(filename: String)
+        - readLyricsFromFile(): ArrayList<String>
+        + readLyrics(): ArrayList<String>
+    }
+
+    abstract class MusicalObject {
+        # name: String
+        -- constructors --
+        + MusicalObject(name: String)
+        -- methods --
+        + getName(): String
+        + setName(name: String): void
+        + getRepresentation(): String
+        + toString(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+
+    class Song extends MusicalObject {
+        # lyrics: ArrayList<String>
+        -- constructors --
+        + Song(name: String, lyricsReader: LyricsReader)
+        -- methods --
+        + getRepresentation(): String
+        + getLyrics(): ArrayList<String>
+        + loadLyrics(lyricsFilename: String): void
+        + toString(): String
+        + equals(obj: Object): boolean
+    }
+
+    interface WeatherSongDetector {
+        + detectSong(weather: Weather): Song
+    }
+}
+
+package weather {
+    class Weather {
+        # type: WeatherType
+        -- constructors --
+        + Weather(type: WeatherType)
+        -- methods --
+        + getType(): WeatherType
+        + setType(type: WeatherType): void
+        + toString(): String
+        + equals(obj: Object): boolean
+    }
+
+    enum WeatherType {
+        SUNNY
+        RAINY
+        CLOUDY
+        WINDY
+        SNOWY
+        FOGGY
+    }
+}
+
+package room {
+    interface Ligtable extends RoomObject {
+        + getName(): String
+        + light(): void
+        + extinguish(): void
+    }
+
+    interface RoomObject {
+        + getName(): String
+    }
+
+    class PoohRoom {
+        # candle: Candle
+        # cupboard: Cupboard
+        # bed: Bed
+
+        + toString(): String
+        + getCandle(): Candle
+        + getCupboard(): Cupboard
+        + getBed(): Bed
+    }
+
+    class Candle implements Ligtable {
+        # isLit: boolean
+
+        + getName(): String
+        + getIsLit(): boolean
+        + light(): void
+        + extinguish(): void
+    }
+
+    class Cupboard {
+        # itemsInside: ArrayList<RoomObject>
+
+        + getName(): String
+        + isEmpty(): boolean
+    }
+
+    class Bed {
+        # character: Character
+
+        + getName(): String
+        + setCharacter(character: Character): void
+        + getCharacter(): Character
+        + hasCharacter(): boolean
+        + removeCharacter(): void
+        + wakeUp(reason: Object): void
+    }
+
+    class ReasonDefiner {
+        + defineReason(reason: Object): String
+    }
+
+    class MisteriousSound {
+        + toString(): String
+    }
+
+    PoohRoom +-- Candle
+    PoohRoom +-- Cupboard
+    PoohRoom +-- Bed
+
+    ' ReasonDefiner is local class of wakeUp method
+    Bed ..> ReasonDefiner
+
+    note right of ReasonDefiner
+        This class is local class of wakeUp method
+    end note
+}
+
+@enduml
