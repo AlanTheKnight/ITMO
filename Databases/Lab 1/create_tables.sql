@@ -86,29 +86,30 @@ BEGIN
         RETURN OLD;
     END IF;
 
-    -- If operation is INSERT, we should create mutual friendship
-    IF TG_OP = 'INSERT' THEN
-        INSERT INTO friendships (person_id, friend_id)
-        VALUES (NEW.friend_id, NEW.person_id);
-        CALL update_friend_count(NEW.person_id, NEW.friend_id);
-        RETURN NEW;
-    END IF;
+    -- -- If operation is INSERT, we should create mutual friendship
+    -- IF TG_OP = 'INSERT' THEN
+        
+    --     INSERT INTO friendships (person_id, friend_id)
+    --     VALUES (NEW.friend_id, NEW.person_id);
+    --     CALL update_friend_count(NEW.person_id, NEW.friend_id);
+    --     RETURN NEW;
+    -- END IF;
 
-    -- If operation is UPDATE, we should update mutual friendship
-    IF TG_OP = 'UPDATE' THEN
-        UPDATE friendships
-        SET keeps_contact = NEW.keeps_contact, miles = NEW.miles
-        WHERE person_id = NEW.friend_id AND friend_id = NEW.person_id;
-        CALL update_friend_count(NEW.person_id, NEW.friend_id);
-        RETURN NEW;
-    END IF;
+    -- -- If operation is UPDATE, we should update mutual friendship
+    -- IF TG_OP = 'UPDATE' THEN
+    --     UPDATE friendships
+    --     SET keeps_contact = NEW.keeps_contact, miles = NEW.miles
+    --     WHERE person_id = NEW.friend_id AND friend_id = NEW.person_id;
+    --     CALL update_friend_count(NEW.person_id, NEW.friend_id);
+    --     RETURN NEW;
+    -- END IF;
 
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE ON friendships
-FOR EACH ROW EXECUTE FUNCTION create_mutual_friendship();
+-- CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE ON friendships
+-- FOR EACH ROW EXECUTE FUNCTION create_mutual_friendship();
 
 
 INSERT INTO persons (name) VALUES ('Alice');
