@@ -61,15 +61,10 @@ CREATE TABLE
 -- Lab 3
 CREATE OR REPLACE FUNCTION update_friend_count()
 RETURNS TRIGGER AS $$
-DECLARE
-    friend_count integer;
 BEGIN
-    SELECT COUNT(*) INTO friend_count FROM friendships
-    WHERE (person_id = NEW.person_id AND friend_id = NEW.friend_id) OR
-          (person_id = NEW.friend_id AND friend_id = NEW.person_id);
-
     UPDATE persons
-    SET friends_count = friend_count
+    SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
+                        (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.friend_id)
     WHERE id = NEW.person_id OR id = NEW.friend_id;
 
     RETURN NEW;
