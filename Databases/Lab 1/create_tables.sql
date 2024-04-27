@@ -112,7 +112,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT, UPDATE, DELETE ON friendships
+CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE ON friendships
 FOR EACH ROW EXECUTE FUNCTION create_mutual_friendship();
 
 
