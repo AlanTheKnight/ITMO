@@ -1,6 +1,7 @@
 CREATE TABLE "persons" (
     "id" SERIAL PRIMARY KEY,
-    "name" varchar
+    "name" varchar,
+    "friends_count" integer DEFAULT 0,
 );
 
 CREATE TABLE "friendships" (
@@ -10,7 +11,8 @@ CREATE TABLE "friendships" (
     "miles" integer DEFAULT null,
     FOREIGN KEY ("person_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("friend_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
-    CONSTRAINT check_miles CHECK (miles >= 0)
+    CONSTRAINT check_miles CHECK (miles >= 0),
+    PRIMARY KEY ("person_id", "friend_id")
 );
 
 CREATE TABLE "information" (
@@ -48,3 +50,17 @@ CREATE TABLE "cities_information" (
     FOREIGN KEY ("cities_id") REFERENCES "cities" ("id"),
     FOREIGN KEY ("information_id") REFERENCES "information" ("id")
 );
+
+-- Lab 3
+
+-- CREATE OR REPLACE FUNCTION update_friend_count()
+-- RETURNS TRIGGER AS $$
+-- BEGIN
+--     UPDATE persons
+
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE TRIGGER update_friend_count_trigger AFTER INSERT OR DELETE ON friendships
+-- FOR EACH ROW EXECUTE FUNCTION update_friend_count();
