@@ -79,5 +79,8 @@ EXECUTE FUNCTION update_friend_count();
 INSERT INTO persons (name) VALUES ('Alice');
 INSERT INTO persons (name) VALUES ('Bob');
 INSERT INTO friendships (person_id, friend_id) VALUES (1, 2);
-SELECT * FROM friendships;
+SELECT * FROM persons;
+
+INSERT INTO persons (name) VALUES ('Charlie');
+INSERT INTO friendships (person_id, friend_id) VALUES (1, 3);
 SELECT * FROM persons;
