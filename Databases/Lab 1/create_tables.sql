@@ -14,8 +14,8 @@ CREATE TABLE
         FOREIGN KEY ("person_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
         FOREIGN KEY ("friend_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
         CONSTRAINT check_miles CHECK (miles >= 0),
-        PRIMARY KEY ("person_id", "friend_id"),
-        CONSTRAINT check_friendship_duality CHECK (person_id < friend_id)
+        CONSTRAINT check_friendship_duality CHECK (person_id < friend_id),
+        PRIMARY KEY ("person_id", "friend_id")
     );
 
 CREATE TABLE
@@ -59,23 +59,27 @@ CREATE TABLE
     );
 
 -- Lab 3
-CREATE OR REPLACE PROCEDURE update_friend_count(first_person_id integer, second_person_id integer)
-AS $$
+CREATE OR REPLACE FUNCTION update_friend_count()
+RETURNS TRIGGER AS $$
 DECLARE
     friend_count integer;
 BEGIN
     SELECT COUNT(*) INTO friend_count FROM friendships
-    WHERE (person_id = first_person_id AND friend_id = second_person_id) OR
-          (person_id = second_person_id AND friend_id = first_person_id);
+    WHERE (person_id = NEW.person_id AND friend_id = NEW.friend_id) OR
+          (person_id = NEW.friend_id AND friend_id = NEW.person_id);
 
     UPDATE persons
     SET friends_count = friend_count
-    WHERE id = first_person_id OR id = second_person_id;
+    WHERE id = NEW.person_id OR id = NEW.friend_id;
+
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_friend_count_trigger
-AFTER INSERT OR DELETE ON friendships FOR EACH ROW EXECUTE FUNCTION update_friend_count(NEW.person_id, NEW.friend_id);
+AFTER INSERT OR DELETE ON friendships
+FOR EACH ROW
+EXECUTE FUNCTION update_friend_count();
 
 INSERT INTO persons (name) VALUES ('Alice');
 INSERT INTO persons (name) VALUES ('Bob');
