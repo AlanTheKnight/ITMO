@@ -14,7 +14,8 @@ CREATE TABLE
         FOREIGN KEY ("person_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
         FOREIGN KEY ("friend_id") REFERENCES "persons" ("id") ON DELETE CASCADE,
         CONSTRAINT check_miles CHECK (miles >= 0),
-        PRIMARY KEY ("person_id", "friend_id")
+        PRIMARY KEY ("person_id", "friend_id"),
+        CONSTRAINT check_friendship_duality CHECK (person_id < friend_id)
     );
 
 CREATE TABLE
@@ -68,49 +69,13 @@ BEGIN
           (person_id = second_person_id AND friend_id = first_person_id);
 
     UPDATE persons
-    SET friends_count = friend_count / 2
+    SET friends_count = friend_count
     WHERE id = first_person_id OR id = second_person_id;
 END;
 $$ LANGUAGE plpgsql;
 
--- Create trigger that would automatically create mutual friendship
--- When friendship (a, b) is created, friendship (b, a) should be created as well and vice versa
-CREATE OR REPLACE FUNCTION create_mutual_friendship()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- If operation is DELETE, we should delete mutual friendship as well
-    IF TG_OP = 'DELETE' THEN
-        DELETE FROM friendships
-        WHERE person_id = NEW.friend_id AND friend_id = NEW.person_id;
-        CALL update_friend_count(NEW.person_id, NEW.friend_id);
-        RETURN OLD;
-    END IF;
-
-    -- -- If operation is INSERT, we should create mutual friendship
-    -- IF TG_OP = 'INSERT' THEN
-        
-    --     INSERT INTO friendships (person_id, friend_id)
-    --     VALUES (NEW.friend_id, NEW.person_id);
-    --     CALL update_friend_count(NEW.person_id, NEW.friend_id);
-    --     RETURN NEW;
-    -- END IF;
-
-    -- -- If operation is UPDATE, we should update mutual friendship
-    -- IF TG_OP = 'UPDATE' THEN
-    --     UPDATE friendships
-    --     SET keeps_contact = NEW.keeps_contact, miles = NEW.miles
-    --     WHERE person_id = NEW.friend_id AND friend_id = NEW.person_id;
-    --     CALL update_friend_count(NEW.person_id, NEW.friend_id);
-    --     RETURN NEW;
-    -- END IF;
-
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
--- CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE ON friendships
--- FOR EACH ROW EXECUTE FUNCTION create_mutual_friendship();
-
+CREATE TRIGGER update_friend_count_trigger
+AFTER INSERT OR DELETE ON friendships FOR EACH ROW EXECUTE FUNCTION update_friend_count(NEW.person_id, NEW.friend_id);
 
 INSERT INTO persons (name) VALUES ('Alice');
 INSERT INTO persons (name) VALUES ('Bob');
