@@ -103,16 +103,11 @@ BEGIN
         RETURN NEW;
     END IF;
 
-    IF TG_OP = 'TRUNCATE' THEN
-        update_friend_count(NEW.person_id, NEW.friend_id);
-        RETURN OLD;
-    END IF;
-
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE ON friendships
+CREATE TRIGGER create_mutual_friendship_trigger AFTER INSERT OR UPDATE OR DELETE ON friendships
 FOR EACH ROW EXECUTE FUNCTION create_mutual_friendship();
 
 
