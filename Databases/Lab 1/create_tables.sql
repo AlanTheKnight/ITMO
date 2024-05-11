@@ -66,7 +66,7 @@ BEGIN
         SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = OLD.person_id) +
                             (SELECT COUNT(*) FROM friendships WHERE friend_id = OLD.person_id)
         WHERE id = OLD.person_id OR id = OLD.friend_id;
-    ELSE THEN
+    ELSE
         UPDATE persons
         SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
                             (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.person_id)
@@ -89,4 +89,7 @@ SELECT * FROM persons;
 
 INSERT INTO persons (name) VALUES ('Charlie');
 INSERT INTO friendships (person_id, friend_id) VALUES (1, 3);
+SELECT * FROM persons;
+
+DELETE FROM friendships WHERE person_id = 1 AND friend_id = 2;
 SELECT * FROM persons;
