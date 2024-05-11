@@ -58,40 +58,34 @@ CREATE TABLE
         FOREIGN KEY ("information_id") REFERENCES "information" ("id")
     );
 
--- Lab 3
 CREATE OR REPLACE FUNCTION update_friend_count()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE persons
-    SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
-                        (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.friend_id)
-    WHERE id = NEW.person_id OR id = NEW.friend_id;
+    IF TG_TABLE_NAME = 'friendships' THEN
+        UPDATE persons
+        SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
+                            (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.friend_id)
+        WHERE id = NEW.person_id OR id = NEW.friend_id;
+    ELSE
+        UPDATE persons
+        SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.id) +
+                            (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.id)
+        WHERE id = NEW.id;
+    END IF;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER update_friend_count_trigger
+CREATE TRIGGER update_friend_count_friendships_trigger
 AFTER INSERT OR DELETE ON friendships
 FOR EACH ROW
 EXECUTE FUNCTION update_friend_count();
 
-CREATE OR REPLACE FUNCTION update_person_friend_count()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE persons
-    SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.id) +
-                        (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.id)
-    WHERE id = NEW.id;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_person_friend_count_trigger
-AFTER INSERT OR UPDATE OR DELETE ON persons
+CREATE TRIGGER update_friend_count_persons_trigger
+AFTER DELETE ON persons
 FOR EACH ROW
-EXECUTE FUNCTION update_person_friend_count();
+EXECUTE FUNCTION update_friend_count();
 
 INSERT INTO persons (name) VALUES ('Alice');
 INSERT INTO persons (name) VALUES ('Bob');
