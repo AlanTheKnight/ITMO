@@ -61,15 +61,17 @@ CREATE TABLE
 CREATE OR REPLACE FUNCTION update_friend_count()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE persons
-    SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
-                        (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.person_id)
-    WHERE id = NEW.person_id;
-
-    UPDATE persons
-    SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.friend_id) +
-                        (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.friend_id)
-    WHERE id = NEW.friend_id;
+    IF TG_OP = 'DELETE' THEN
+        UPDATE persons
+        SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = OLD.person_id) +
+                            (SELECT COUNT(*) FROM friendships WHERE friend_id = OLD.person_id)
+        WHERE id = OLD.person_id OR id = OLD.friend_id;
+    ELSE THEN
+        UPDATE persons
+        SET friends_count = (SELECT COUNT(*) FROM friendships WHERE person_id = NEW.person_id) +
+                            (SELECT COUNT(*) FROM friendships WHERE friend_id = NEW.person_id)
+        WHERE id = NEW.person_id OR id = NEW.friend_id;
+    END IF;
 
     RETURN NEW;
 END;
