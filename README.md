@@ -41,7 +41,7 @@
     <tr>
         <td align="center">6</td>
         <td align="center">1488</td>
-        <td align="center">🛠️</td>
+        <td align="center">✅</td>
         <td align="center">2</td>
         <td align="center">-</td>
         <td align="center">❌</td>
@@ -51,8 +51,8 @@
     </tr>
     <tr>
         <td align="center">7</td>
-        <td align="center">-</td>
-        <td align="center">❌</td>
+        <td align="center">1488</td>
+        <td align="center">✅</td>
         <td align="center">3</td>
         <td align="center">-</td>
         <td align="center">❌</td>
@@ -62,8 +62,8 @@
     </tr>
     <tr>
         <td align="center">8</td>
-        <td align="center">-</td>
-        <td align="center">❌</td>
+        <td align="center">1488</td>
+        <td align="center">✅</td>
         <td align="center">4</td>
         <td align="center">-</td>
         <td align="center">❌</td>
